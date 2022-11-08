@@ -1,0 +1,11 @@
+{
+  "devDependencies": {
+    "typescript": "^4.8.4"
+  },
+  "dependencies": {
+    "ts-node": "^10.9.1"
+  },
+  "scripts": {
+    "dev": "node -r ts-node/register /Users/wangbaoqi/personal/nateTech/JavaScript/complier/typescript/index.ts"
+  }
+}
