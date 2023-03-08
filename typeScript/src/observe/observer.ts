@@ -1,14 +1,16 @@
 
 
+type IClientItem = Array<() => void>
+
 interface IClient {
-  [key: string]: [];
+  [key: string]: IClientItem;
 }
 
 class EventObserver {
 
   private clientInfo: IClient = {};
 
-  on(key: string, cb: () => void): void {
+  on(key: string, cb: any): void {
     const { clientInfo } = this;
     if (!clientInfo[key]) { 
       clientInfo[key] = []
