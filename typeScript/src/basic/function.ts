@@ -191,3 +191,154 @@ function fs(n: number) {
   console.log(n.toFixed(3));
 }
 
+// use ? optional 
+function fs1(n?: number) {
+  console.log(n);
+}
+
+// #### Optional Parameters in CallBacks
+
+function myEach(arr: any[], cb: (arg: any, idx?: number) => void) {
+  arr.forEach((a, id) => cb(a, id))
+}
+
+
+myEach([1, 2, 3], (a, i) => {
+  console.log(i.toFixed()); // i possibly is undefined
+  console.log(i?.toFixed());
+})
+
+// * note 在写回调函数类型时，除非你打算不传递该参数就调用函数，否则永远不要写可选参数。
+
+
+// ## Function Overloads
+
+// * note learn it in the future when using it
+
+
+// ## Other Type to Know about
+
+// * 1. void
+// * 2. object
+// * 3. unknow
+// * 4. never
+// * 5. Function
+
+// ### void
+
+// void表示不返回任何值的函数的返回值。
+// 当一个函数没有任何return语句或者在这些return语句中没有显式地返回任何值时，
+// 它就是隐含类型。
+
+function myVoid() {
+  return;
+}
+
+// like myVoid(): void
+
+// 在JavaScript中，不返回任何值的函数将隐式返回未定义的值。
+// 然而，在TypeScript中，void和undefined不是一回事
+
+// ### object
+
+// the special type object refers to any value that isn't a primitive(string, number,
+// bigInt, boolean, null, undefined), this is different from empty object type {}, 
+// and also different from the global type Object, it's very likely you will never use
+// Object type
+
+// ### unknow 
+
+// the unknow type represents any value, this is similar to the any type, but is safer 
+// because it's not legal to do anything with an unknow value.
+
+// unknow 是安全的，在做任何不合法的操作都会抛出异常
+
+function myAny(a: any) {
+  a.b();
+}
+
+function myKnow(a: unknown) {
+  a.b(); 
+}
+
+// 这在描述函数类型时很有用，因为您可以描述接受任何值的函数，而函数体中没有任何值。
+// * 相反，您可以描述返回未知类型值的函数：
+
+function safeKnow(s: string): unknown {
+  return JSON.parse(s);
+}
+const res = safeKnow('3')
+
+// ### never
+
+// Some functions never return a value:
+
+function fail(msg: string): never {
+  throw new Error(msg)
+}
+
+// Never类型表示从未观察到的值。在返回类型中，这意味着函数抛出异常或终止程序的执行。
+// Never也会出现，当TypeScript判断联合中没有剩余项时
+
+function fn(s: string | number) {
+  if (typeof s == 'string') {
+    
+  } else if (typeof s == 'number') {
+    
+  } else {
+    console.log(s); // s is never type
+  }
+}
+
+// ### Function 
+
+// 全局类型函数描述了JavaScript中所有函数值上存在的bind、call, apply等属性。
+// 它还具有特殊属性，即函数类型的值始终可以调用；这些调用返回 any 
+
+function myFun(f: Function) {
+  f.call(null);
+  f.apply(null);
+  f(11)
+}
+
+// ## Rest Parameters and Arguments
+
+
+// ### Rest Parameters
+
+// 除了使用可选参数或重载来创建可接受各种固定参数个数的函数外，
+// 我们还可以使用剩余参数定义接受无限个数的函数。
+
+// A rest parameter appears after all other parameters, and uses the ... syntax:
+
+function myRest(n: number, ...m: number[]) {
+  return m.map(x => n ** x)
+}
+
+// * note the type of m
+
+
+// ### Rest Arguments
+
+// 相反，我们可以使用扩展语法从数组中提供可变数量的参数。
+// 例如，数组的推送方法接受任意数量的参数：
+
+const arr1 = [1, 2, 3, 4];
+const arr2 = [0, 6, 6];
+
+arr2.push(...arr1);
+
+
+const args = [8, 5];
+const angle = Math.atan2(...args); // 传递给参数的参数必须具有元组类型或者被传递到剩余参数中
+
+// * 这种情况的最佳修复方法有点取决于您的代码，但一般来说，常量上下文是最直接的解决方案 
+
+const args1 = [9, 4] as const;
+const angles = Math.atan2(...args1);
+
+
+// ## Parameter Destructuring 类型解构
+
+
+

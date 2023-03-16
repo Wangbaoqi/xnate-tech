@@ -149,9 +149,16 @@ const req = { url: 'http://localhost', method: 'POST' };
 
 handleRequest(req.url, req.method)
 
-function handleRequest(url: string, method: string) {
+function handleRequest(url: string, method: 'GET') {
   console.log(url, method);
 }
+
+// to fixed it
+
+const req1 = { url: 'http://localhost', method: 'GET' } as const;
+handleRequest(req.url, req1.method)
+
+
 
 // # null and undefined
 // javascript has two primitives values used to signal absent or uninitialized value: null and undefined
