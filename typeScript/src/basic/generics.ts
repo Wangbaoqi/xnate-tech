@@ -81,3 +81,82 @@ interface MyIdentity1<Type> {
 }
 
 const myIdentity4: MyIdentity1<string> = identity1;
+
+
+// ## Generic Classes
+
+// 一个泛型类具有与泛型接口相似的形状。
+// 泛型类在类名之后具有尖括号（<>）中的泛型类型参数列表。
+
+class GenericClass<Type> {
+  value: Type;
+  add: (x: Type, y: Type) => Type;
+}
+
+const generic = new GenericClass<number>();
+
+
+// ## Generic Constraints
+
+// 为此，我们将创建一个描述我们约束的接口。在这里，
+// 我们将创建一个具有单个.length属性的接口，
+// 然后我们将使用此接口和extends关键字来表示我们的约束：
+
+interface LengthWise {
+  length: number
+}
+
+function loggingIdentity<Type extends LengthWise>(arg: Type) {
+  console.log(arg.length);
+}
+
+loggingIdentity(1);
+loggingIdentity({ length: 1, value: '22' });
+
+
+// ## Using Type Parameters in Generic Constraints
+
+
+function getProperty<Type, Key extends keyof Type>(obj: Type, key: Key) {
+  console.log(obj[key]);
+}
+
+getProperty({ a: 1, b: 2, c: 3 }, 'a');
+getProperty({ a: 1, b: 2, c: 3 }, 'd');
+
+// ## Using Class Types in Generics
+
+// 在使用泛型创建TypeScript中的工厂时，必须通过其构造函数引用类型。 例如，=>
+
+function create<Type>(c: { new(): Type }): Type {
+  return new c()
+}
+
+class Beekeeper {
+  hasMask: boolean = true;
+}
+
+class Zookeeper {
+  nameTag: string = 'zookeeper';
+}
+
+class Animal {
+  numLegs: number = 3;
+}
+
+class Bee extends Animal {
+  keeper: Beekeeper = new Beekeeper();
+}
+
+class Lion extends Animal { 
+  keeper: Zookeeper = new Zookeeper();
+}
+
+function createInstance<A extends Animal>(c: new () => A): A {
+  return new c()
+}
+
+const bee = createInstance(Bee)
+console.log(bee.keeper.hasMask);
+
+// * 此模式用于为混合设计模式提供动力。
