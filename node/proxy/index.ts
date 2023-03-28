@@ -14,7 +14,7 @@ const request = async() => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer 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'
+          'Authorization': 'Bearer '
         },
         body: {
           "model": "gpt-3.5-turbo",
@@ -39,3 +39,6 @@ const request = async() => {
 }
 
 request()
+
+
+
