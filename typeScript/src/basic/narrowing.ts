@@ -3,7 +3,7 @@
 function padLeft(padding: number | string, input: string): string {
   // throw new Error('Not implemented yet')
 
-  if (typeof padding === 'number') { 
+  if (typeof padding === 'number') {
     return ''.repeat(padding) + input;
   }
   return padding + input;
